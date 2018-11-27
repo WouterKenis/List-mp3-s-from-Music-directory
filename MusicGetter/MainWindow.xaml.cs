@@ -24,17 +24,28 @@ namespace MusicGetter
             foreach (string musicFile in allMusicFiles)
             {
                 var file = TagLib.File.Create(musicFile);
-
                 var splitted = musicFile.Split('\\');
 
-                musicFiles.Add(new MusicFile
-                {
-                    FileName = splitted[splitted.Length - 1],
-                    Artist = file.Tag.FirstAlbumArtist,
-                    Year = file.Tag.Year,
-                    Genre = file.Tag.FirstGenre,
-                    Title = file.Tag.Title
-                });
+                MusicFile mf = new MusicFile();
+                mf.FileName = splitted[splitted.Length - 1];
+                mf.Year = file.Tag.Year;
+
+                if (file.Tag.FirstAlbumArtist == null)
+                    mf.Artist = "unknown";
+                else
+                    mf.Artist = file.Tag.FirstAlbumArtist;
+
+                if (file.Tag.FirstGenre == null)
+                    mf.Genre = "unknown";
+                else
+                    mf.Genre = file.Tag.FirstGenre;
+
+                if (file.Tag.Title == null)
+                    mf.Title = "unknown";
+                else
+                    mf.Title = file.Tag.Title;
+
+                musicFiles.Add(mf);
             }
 
             musicFileDataGrid.ItemsSource = musicFiles;
