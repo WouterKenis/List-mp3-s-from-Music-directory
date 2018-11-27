@@ -25,8 +25,11 @@ namespace MusicGetter
             {
                 var file = TagLib.File.Create(musicFile);
 
+                var splitted = musicFile.Split('\\');
+
                 musicFiles.Add(new MusicFile
                 {
+                    FileName = splitted[splitted.Length - 1],
                     Artist = file.Tag.FirstAlbumArtist,
                     Year = file.Tag.Year,
                     Genre = file.Tag.FirstGenre,
